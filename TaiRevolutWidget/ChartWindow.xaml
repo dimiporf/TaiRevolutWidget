@@ -1,0 +1,38 @@
+﻿<Window x:Class="TaiRevolutWidget.ChartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        Title="Αξία TAI σε EUR — Γράφημα" Width="800" Height="520"
+        Background="#111318" Foreground="#EDEDED" WindowStartupLocation="CenterOwner">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Controls -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Text="Περίοδος:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <ComboBox x:Name="cmbRange" Width="140" SelectedIndex="0" Margin="0,0,8,0">
+                <ComboBoxItem Content="Τελευταίες 24 ώρες" Tag="1"/>
+                <ComboBoxItem Content="7 ημέρες" Tag="7"/>
+                <ComboBoxItem Content="30 ημέρες" Tag="30"/>
+            </ComboBox>
+            <Button Content="Ανανέωση" Click="Refresh_Click"
+                    Background="#2B3240" Foreground="#EDEDED" BorderBrush="#3A4150"/>
+            <TextBlock x:Name="txtStatus" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="#9AA3B2"/>
+        </StackPanel>
+
+        <!-- Plot -->
+        <oxy:PlotView x:Name="plot" Grid.Row="1" Background="#1B1E24" />
+
+        <!-- Legend note -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,8,0,0">
+            <Border Background="#2B3240" CornerRadius="6" Padding="8">
+                <TextBlock Text="Προβάλλονται δύο καμπύλες: Αξία (μικτή) και Αξία με fees (καθαρή)."
+                           Foreground="#EDEDED"/>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>
