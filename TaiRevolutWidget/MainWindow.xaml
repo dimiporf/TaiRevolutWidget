@@ -60,15 +60,20 @@
 
             <!-- Controls -->
             <Grid Grid.Row="2" Margin="0,12,0,8">
+
                 <Grid.ColumnDefinitions>
+
                     <ColumnDefinition Width="*"/>
+
                     <ColumnDefinition Width="Auto"/>
+
                     <ColumnDefinition Width="Auto"/>
+
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <StackPanel Orientation="Horizontal" Grid.Column="2">
                     <TextBlock Text="Περίοδος:" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <ComboBox x:Name="cmbRange" Width="160" Margin="0,0,8,0"
+                    <ComboBox x:Name="cmbRange" Width="152" Margin="0,0,8,0"
                     SelectionChanged="cmbRange_SelectionChanged">
                         <ComboBoxItem Content="Τελευταίες 24 ώρες" Tag="1"/>
                         <ComboBoxItem Content="7 ημέρες" Tag="7"/>
@@ -79,26 +84,29 @@
                     <TextBlock x:Name="txtChartStatus" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="#9AA3B2"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-                    <Button x:Name="btnRefresh" Content="Ανανέωση τώρα" Click="BtnRefresh_Click"
-                  Margin="16,0,0,0"
-                  Background="#2B3240" Foreground="#EDEDED" BorderBrush="#3A4150" />
-                    <Button x:Name="btnMinimize" Content="Minimize" Click="BtnMinimize_Click"
-                  Margin="8,0,0,0"
-                  Background="#2B3240" Foreground="#EDEDED" BorderBrush="#3A4150"/>
-                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right"/>
             </Grid>
 
             <!-- Chart with overlay -->
             <Grid Grid.Row="3">
-                <!-- Plot -->
-                <oxy:PlotView x:Name="plot" Background="#1B1E24" Height="280" />
+                <!-- Plot: χωρίς fixed Height για να γεμίσει τον διαθέσιμο χώρο -->
+                <oxy:PlotView x:Name="plot" Background="#1B1E24" />
+
+                <!-- BIG VALUE (πάνω-δεξιά, καθαρή ΑΞΙΑ) -->
+                <Border HorizontalAlignment="Right" VerticalAlignment="Top"
+            Margin="0,-132,16,0" Padding="8,4"
+            Background="#2B3240" CornerRadius="10" Opacity="0.95" Height="84" Width="288">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ΑΞΙΑ:" FontSize="16" Foreground="#9AA3B2" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock x:Name="txtBigValue" FontSize="36" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
 
                 <!-- Overlay canvas (πάνω από το γράφημα) -->
-                <Canvas x:Name="overlay" IsHitTestVisible="False">
+                <Canvas x:Name="overlay" IsHitTestVisible="False" Margin="0,0,0,-22">
                     <Border x:Name="hoverPanel" Visibility="Collapsed"
-                  Background="#000000" BorderBrush="#141414" BorderThickness="1"
-                  CornerRadius="6" Padding="8" Opacity="0.95">
+                Background="#000000" BorderBrush="#141414" BorderThickness="1"
+                CornerRadius="6" Padding="8" Opacity="0.95">
                         <StackPanel>
                             <TextBlock x:Name="hoverHeader" FontWeight="Bold" Foreground="White"/>
                             <TextBlock x:Name="hoverGross"   Foreground="White" Margin="0,4,0,0"/>
@@ -108,11 +116,10 @@
                 </Canvas>
             </Grid>
 
+
             <!-- Legend note -->
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,8,0,0">
-                <Border Background="#2B3240" CornerRadius="6" Padding="8">
-                    <TextBlock Text="Hover: tooltip πάνω από το γράφημα (εκτός plot) με Μικτή/Καθαρή αξία." />
-                </Border>
+                <Border Background="#2B3240" CornerRadius="6" Padding="8"/>
             </StackPanel>
         </Grid>
     </Border>

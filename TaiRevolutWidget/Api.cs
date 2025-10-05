@@ -8,7 +8,7 @@ namespace TaiRevolutWidget
     internal static class Api
     {
         // ΒΑΛΕ εδώ το DEMO key σου (πρέπει να ξεκινά με "cg_demo_")
-        public static string ApiKey { get; set; } = "insert your key here";
+        public static string ApiKey { get; set; } = "placeholder";
 
         // ΜΟΝΟ demo
         public static string Mode { get; set; } = "demo";

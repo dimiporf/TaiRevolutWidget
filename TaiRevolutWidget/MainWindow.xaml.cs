@@ -28,6 +28,8 @@ namespace TaiRevolutWidget
         private LineSeries? _netSeries;
         private LineAnnotation? _cursorLine;
         private PointAnnotation? _cursorDot;
+        private bool _isAutoRefreshing;
+
 
         public MainWindow()
         {
@@ -35,7 +37,18 @@ namespace TaiRevolutWidget
             _http = Api.CreateHttpClient(TimeSpan.FromSeconds(15));
 
             _timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(1) };
-            _timer.Tick += async (_, __) => await RefreshSummaryAsync();
+            _timer.Tick += async (_, __) =>
+            {
+                if (_isAutoRefreshing) return;
+                _isAutoRefreshing = true;
+                try
+                {
+                    await RefreshSummaryAsync();
+                    await LoadChartAsync(); // γράφημα κάθε λεπτό
+                }
+                finally { _isAutoRefreshing = false; }
+            };
+
 
             Loaded += async (_, __) =>
             {
@@ -70,6 +83,9 @@ namespace TaiRevolutWidget
 
                 var gross = AMOUNT_TAI * priceEur;
                 var net = gross * (1 - (FEE_PCT / 100m));
+
+                // big label: καθαρή ΑΞΙΑ (με fees)
+                if (txtBigValue != null) txtBigValue.Text = FormatCurrency(gross);
 
                 lblPrice.Text = "€ " + FormatPrice(priceEur);
                 lblGross.Text = FormatCurrency(gross);

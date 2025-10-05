@@ -4,7 +4,11 @@
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<Nullable>enable</Nullable>
+		<ApplicationIcon>Resources\TAI_Widget_Icon.ico</ApplicationIcon>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Include="Resources\TAI_Widget_Icon.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />
