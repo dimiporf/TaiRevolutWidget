@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:oxy="http://oxyplot.org/wpf"
         Title="TAI → EUR (Revolut)"
-        Width="820" Height="520"
+        Width="820" Height="499"
         WindowStyle="None" ResizeMode="NoResize" Topmost="True"
         Background="#111318" Foreground="#EDEDED"
         AllowsTransparency="True" Opacity="0.98"
@@ -32,10 +32,10 @@
                 </StackPanel>
 
                 <Button Grid.Column="1" Content="×" Click="BtnClose_Click"
-                HorizontalAlignment="Right" Margin="8,0,0,0"
-                Background="#262B36" Foreground="#EDEDED" Width="28" Height="28"
-                BorderBrush="#3A4150" BorderThickness="1" Padding="0"
-                ToolTip="Κλείσιμο" />
+                        HorizontalAlignment="Right" Margin="8,0,0,0"
+                        Background="#262B36" Foreground="#EDEDED" Width="28" Height="28"
+                        BorderBrush="#3A4150" BorderThickness="1" Padding="0"
+                        ToolTip="Κλείσιμο" />
             </Grid>
 
             <!-- Summary -->
@@ -60,53 +60,60 @@
 
             <!-- Controls -->
             <Grid Grid.Row="2" Margin="0,12,0,8">
-
                 <Grid.ColumnDefinitions>
-
+                    <!-- Αριστερά: περίοδος/κουμπί/κατάσταση -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Μεσαίο: ΠΟΣΟ (γεμίζει όλο το υπόλοιπο πλάτος) -->
                     <ColumnDefinition Width="*"/>
-
+                    <!-- Δεξιά: (κρατημένο για μελλοντικά κουμπιά) -->
                     <ColumnDefinition Width="Auto"/>
-
-                    <ColumnDefinition Width="Auto"/>
-
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <!-- Αριστερά -->
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <TextBlock Text="Περίοδος:" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <ComboBox x:Name="cmbRange" Width="152" Margin="0,0,8,0"
-                    SelectionChanged="cmbRange_SelectionChanged">
+                              SelectionChanged="cmbRange_SelectionChanged">
                         <ComboBoxItem Content="Τελευταίες 24 ώρες" Tag="1"/>
                         <ComboBoxItem Content="7 ημέρες" Tag="7"/>
                         <ComboBoxItem Content="30 ημέρες" Tag="30"/>
                     </ComboBox>
                     <Button Content="Ανανέωση" Click="ChartRefresh_Click"
-                  Background="#2B3240" Foreground="#EDEDED" BorderBrush="#3A4150"/>
+                            Background="#2B3240" Foreground="#EDEDED" BorderBrush="#3A4150"/>
                     <TextBlock x:Name="txtChartStatus" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="#9AA3B2"/>
                 </StackPanel>
 
+                <!-- Μεσαία στήλη: ΠΟΣΟ που γεμίζει τον χώρο (με Viewbox για auto-scale) -->
+                <Border x:Name="bigValueHost"
+                        Margin="239,-116,78,0"
+                        Background="#2B3240"
+                        CornerRadius="10"
+                        Padding="12,6"
+                        VerticalAlignment="Top"
+                        Height="84" Grid.ColumnSpan="2">
+                    <Viewbox Stretch="Uniform" StretchDirection="UpOnly">
+                        <TextBlock x:Name="txtBigValue"
+                                   Text="€ 0,00"
+                                   FontWeight="Bold"
+                                   TextAlignment="Right"
+                                   Foreground="#EDEDED" />
+                    </Viewbox>
+                </Border>
+
+                <!-- Δεξιά (προαιρετικά κουμπιά) -->
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right"/>
             </Grid>
 
             <!-- Chart with overlay -->
             <Grid Grid.Row="3">
-                <!-- Plot: χωρίς fixed Height για να γεμίσει τον διαθέσιμο χώρο -->
+                <!-- Plot: γεμίζει όλο τον χώρο -->
                 <oxy:PlotView x:Name="plot" Background="#1B1E24" />
 
-                <!-- BIG VALUE (πάνω-δεξιά, καθαρή ΑΞΙΑ) -->
-                <Border HorizontalAlignment="Right" VerticalAlignment="Top"
-            Margin="0,-132,16,0" Padding="8,4"
-            Background="#2B3240" CornerRadius="10" Opacity="0.95" Height="84" Width="288">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ΑΞΙΑ:" FontSize="16" Foreground="#9AA3B2" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock x:Name="txtBigValue" FontSize="36" FontWeight="Bold"/>
-                    </StackPanel>
-                </Border>
-
                 <!-- Overlay canvas (πάνω από το γράφημα) -->
-                <Canvas x:Name="overlay" IsHitTestVisible="False" Margin="0,0,0,-22">
+                <Canvas x:Name="overlay" IsHitTestVisible="False" Margin="0,0,0,-27">
                     <Border x:Name="hoverPanel" Visibility="Collapsed"
-                Background="#000000" BorderBrush="#141414" BorderThickness="1"
-                CornerRadius="6" Padding="8" Opacity="0.95">
+                            Background="#000000" BorderBrush="#141414" BorderThickness="1"
+                            CornerRadius="6" Padding="8" Opacity="0.95">
                         <StackPanel>
                             <TextBlock x:Name="hoverHeader" FontWeight="Bold" Foreground="White"/>
                             <TextBlock x:Name="hoverGross"   Foreground="White" Margin="0,4,0,0"/>
@@ -116,8 +123,7 @@
                 </Canvas>
             </Grid>
 
-
-            <!-- Legend note -->
+            <!-- Legend note (κενό container για μελλοντικό info) -->
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,8,0,0">
                 <Border Background="#2B3240" CornerRadius="6" Padding="8"/>
             </StackPanel>
